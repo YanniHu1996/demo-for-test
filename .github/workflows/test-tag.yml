@@ -49,7 +49,7 @@ jobs:
           # latest_release_branch=$(git branch --list 'release-*' | sort | tail -n1 | xargs)
           latest_release_branch=release-1.25
           latest_release_version=${latest_release_branch#release-}
-          if [[ $tag == ${latest_release_version}* ]]; then
+          if [[ ${{ env.IMAGE_TAG }} == ${latest_release_version}* ]]; then
               echo "IMAGE_STANDARD_LATEST=${{ env.IMAGE_STANDARD }}:latest"  >> $GITHUB_ENV
               echo "IMAGE_ENTERPRISE_LATEST=${{ env.IMAGE_STANDARD }}:latest"  >> $GITHUB_ENV
               echo "PGD_IMAGE_STANDARD_LATEST=${{ env.IMAGE_STANDARD }}:latest"  >> $GITHUB_ENV
@@ -78,7 +78,7 @@ jobs:
           # latest_release_branch=$(git branch --list 'release-*' | sort | tail -n1 | xargs)
           latest_release_branch=release-1.26
           latest_release_version=${latest_release_branch#release-}
-          if [[ $tag == ${latest_release_version}* ]]; then
+          if [[ ${{ env.IMAGE_TAG }} == ${latest_release_version}* ]]; then
               echo "IMAGE_STANDARD_LATEST=${{ env.IMAGE_STANDARD }}:latest"  >> $GITHUB_ENV
               echo "IMAGE_ENTERPRISE_LATEST=${{ env.IMAGE_STANDARD }}:latest"  >> $GITHUB_ENV
               echo "PGD_IMAGE_STANDARD_LATEST=${{ env.IMAGE_STANDARD }}:latest"  >> $GITHUB_ENV
