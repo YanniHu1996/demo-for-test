@@ -1,0 +1,105 @@
+# When a release tag is pushed, create and publish operator images on CloudSmith.
+# TODO: Starting from 1.20 (as planed) the jobs of `release`, `release-plugin`, `invoke-redhat-certification` from
+#       the workflow `release-publish-quay` will be moved to this workflow (once the OpenShift work to accept images
+#       from a private repository is done), meanwhile `release-publish-quay` will quit the stage.
+name: release-publish
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - v*
+
+env:
+  GOLANG_VERSION: "1.24.x"
+  IMAGE_GHCR: ghcr.io/enterprisedb/cloud-native-postgres
+  IMAGE_STANDARD: docker.enterprisedb.com/k8s_standard/edb-postgres-for-kubernetes
+  IMAGE_ENTERPRISE: docker.enterprisedb.com/k8s_enterprise/edb-postgres-for-kubernetes
+  PGD_IMAGE_STANDARD: docker.enterprisedb.com/k8s_standard_pgd/edb-postgres-for-kubernetes
+  PGD_IMAGE_ENTERPRISE: docker.enterprisedb.com/k8s_enterprise_pgd/edb-postgres-for-kubernetes
+
+permissions:
+  contents: write
+
+jobs:
+  buildx:
+    name: Build containers
+    runs-on:  ubuntu-20.04
+    outputs:
+      version: ${{ env.VERSION }}
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # To identify the commit we need the history and all the tags.
+          fetch-depth: 0
+      -
+        name: Build meta
+        id: build-meta
+        run: |
+         
+          echo "IMAGE_TAG=1.25.1" >> $GITHUB_ENV
+
+
+
+      - name: Build Latest Tags1
+        run: |
+          # Detect the tag is created from the latest release branch
+          # latest_release_branch=$(git branch --list 'release-*' | sort | tail -n1 | xargs)
+          latest_release_branch=release-1.25
+          latest_release_version=${latest_release_branch#release-}
+          if [[ $tag == ${latest_release_version}* ]]; then
+              echo "IMAGE_STANDARD_LATEST=${{ env.IMAGE_STANDARD }}:latest"  >> $GITHUB_ENV
+              echo "IMAGE_ENTERPRISE_LATEST=${{ env.IMAGE_STANDARD }}:latest"  >> $GITHUB_ENV
+              echo "PGD_IMAGE_STANDARD_LATEST=${{ env.IMAGE_STANDARD }}:latest"  >> $GITHUB_ENV
+              echo "PGD_IMAGE_ENTERPRISE_LATEST=${{ env.IMAGE_STANDARD }}:latest"  >> $GITHUB_ENV
+              echo "IMAGE_GHCR_LATEST=${{ env.IMAGE_STANDARD }}:latest"  >> $GITHUB_ENV
+          fi
+      -
+        name: Build and push1
+        run:
+          ubi2=${{ env.IMAGE_STANDARD_LATEST }}
+          ubi3=${{ env.IMAGE_ENTERPRISE_LATEST }}
+          ubi4=${{ env.PGD_IMAGE_STANDARD_LATEST }}
+          ubi5=${{ env.PGD_IMAGE_ENTERPRISE_LATEST }}
+          ubi6=${{ env.IMAGE_GHCR_LATEST }}
+
+          echo ubi.tags=$ubi2 
+          echo ubi.tags=$ubi3 
+          echo ubi.tags=$ubi4 
+          echo ubi.tags=$ubi5 
+          echo ubi.tags=$ubi6
+
+
+      - name: Build Latest Tags2
+        run: |
+          # Detect the tag is created from the latest release branch
+          # latest_release_branch=$(git branch --list 'release-*' | sort | tail -n1 | xargs)
+          latest_release_branch=release-1.26
+          latest_release_version=${latest_release_branch#release-}
+          if [[ $tag == ${latest_release_version}* ]]; then
+              echo "IMAGE_STANDARD_LATEST=${{ env.IMAGE_STANDARD }}:latest"  >> $GITHUB_ENV
+              echo "IMAGE_ENTERPRISE_LATEST=${{ env.IMAGE_STANDARD }}:latest"  >> $GITHUB_ENV
+              echo "PGD_IMAGE_STANDARD_LATEST=${{ env.IMAGE_STANDARD }}:latest"  >> $GITHUB_ENV
+              echo "PGD_IMAGE_ENTERPRISE_LATEST=${{ env.IMAGE_STANDARD }}:latest"  >> $GITHUB_ENV
+              echo "IMAGE_GHCR_LATEST=${{ env.IMAGE_STANDARD }}:latest"  >> $GITHUB_ENV
+          fi
+      -
+        name: Build and push2
+        run:
+          ubi2=${{ env.IMAGE_STANDARD_LATEST }}
+          ubi3=${{ env.IMAGE_ENTERPRISE_LATEST }}
+          ubi4=${{ env.PGD_IMAGE_STANDARD_LATEST }}
+          ubi5=${{ env.PGD_IMAGE_ENTERPRISE_LATEST }}
+          ubi6=${{ env.IMAGE_GHCR_LATEST }}
+
+          echo ubi.tags=$ubi2 
+          echo ubi.tags=$ubi3 
+          echo ubi.tags=$ubi4 
+          echo ubi.tags=$ubi5 
+          echo ubi.tags=$ubi6
+           
+
+
+
