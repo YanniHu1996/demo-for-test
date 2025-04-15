@@ -74,6 +74,11 @@ jobs:
 
       - name: Build Latest Tags2
         run: |
+          echo "IMAGE_STANDARD_LATEST="  >> $GITHUB_ENV
+          echo "IMAGE_ENTERPRISE_LATEST="  >> $GITHUB_ENV
+          echo "PGD_IMAGE_STANDARD_LATEST="  >> $GITHUB_ENV
+          echo "PGD_IMAGE_ENTERPRISE_LATEST="  >> $GITHUB_ENV
+          echo "IMAGE_GHCR_LATEST="  >> $GITHUB_ENV
           # Detect the tag is created from the latest release branch
           # latest_release_branch=$(git branch --list 'release-*' | sort | tail -n1 | xargs)
           latest_release_branch=release-1.26
