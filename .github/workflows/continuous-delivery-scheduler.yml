@@ -15,7 +15,7 @@ jobs:
       - name: Generate Image Catalogs
         run: |
           matrix=$(cat .github/operand_versions_scope.json | jq -r '{"pgd_edition": .supported}')
-          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+          echo "matrix="$matrix" >> $GITHUB_OUTPUT
 
   Continuous-delivery:
     strategy:
