@@ -62,3 +62,5 @@ jobs:
           echo "workflowId: ${{ steps.invoke.outputs.workflow_id }}"
           echo "workflowId: ${{ steps.invoke.outputs.workflow_id }}" >> $GITHUB_STEP_SUMMARY
           echo "workflowId: ${{ steps.invoke.outputs.workflow_id }}"
+          echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
+
