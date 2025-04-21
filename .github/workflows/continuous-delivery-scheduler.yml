@@ -1,11 +1,11 @@
 name: continuous-delivery-scheduler
 on:
-  # schedule:
-  #   - cron: "30 21 * * *"
+  schedule:
+    - cron: "30 21 * * *"
   workflow_dispatch:
 
 jobs:
-  Generate:
+  generate:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.generate.outputs.matrix }}
