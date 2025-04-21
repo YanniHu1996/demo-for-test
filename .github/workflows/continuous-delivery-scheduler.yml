@@ -19,7 +19,22 @@ jobs:
           echo "matrix=${matrix}" >> $GITHUB_OUTPUT
           echo ${matrix}
 
+
+  test:
+    runs-on: ubuntu-latest
+    needs:
+      - generate-workflows
+
+    steps:
+      - name: Checkout
+        run: |
+          echo "This is a test job"
+          echo "The matrix is: ${{ fromJSON(needs.generate-workflows.outputs.matrix) }}"
+          echo "The PGD edition is: ${{ fromJSON(needs.generate-workflows.outputs.matrix).pgd_edition }}"
+
   continuous-delivery:
+    needs:
+      - generate-workflows
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.generate-workflows.outputs.matrix) }}
