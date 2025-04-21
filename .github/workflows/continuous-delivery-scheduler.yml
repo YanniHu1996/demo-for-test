@@ -17,6 +17,7 @@ jobs:
         run: |
           matrix=$(cat .github/operand_versions_scope.json | jq -rc '{"pgd_edition": .supported}')
           echo "matrix=${matrix}" >> $GITHUB_OUTPUT
+          echo ${matrix}
 
   continuous-delivery:
     strategy:
