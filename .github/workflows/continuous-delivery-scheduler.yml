@@ -30,3 +30,25 @@ jobs:
     with:
       depth: schedule
       pgd_edition: ${{ matrix.pgd_edition }}
+
+  continuous-delivery-2:
+    name: PGD${{ matrix.pgd_edition }}
+    runs-on: ubuntu-latest
+    needs:
+      - generate-workflows
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.generate-workflows.outputs.matrix) }}
+    steps:
+      - name: Invoke continuous delivery
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: Another Workflow
+          inputs: '{ ""pgd_edition": "${{ matrix.pgd_edition }}", "depth": "schedule" }'
+
+      - name: upload workflowId to github action summary
+        run: |
+          echo "workflowId: ${{ steps.invoke.outputs.workflow_id }}" >> $GITHUB_ENV
+          echo "workflowId: ${{ steps.invoke.outputs.workflow_id }}"
+          echo "workflowId: ${{ steps.invoke.outputs.workflow_id }}" >> $GITHUB_STEP_SUMMARY
+          echo "workflowId: ${{ steps.invoke.outputs.workflow_id }}"
