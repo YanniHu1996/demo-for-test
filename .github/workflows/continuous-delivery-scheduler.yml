@@ -20,7 +20,7 @@ jobs:
           echo ${matrix}
 
   continuous-delivery:
-    name: Continuous Delivery For PGD${{ matrix.pgd_edition }}
+    name: PGD${{ matrix.pgd_edition }}
     needs:
       - generate-workflows
     strategy:

@@ -21,6 +21,6 @@ jobs:
 
       - name: Generate Jobs
         env:
-          PGD_EDITION: ${{ github.event.inputs.pgd_edition }}
+          PGD_EDITION: ${{ inputs.pgd_edition }}
         run: |
           echo ${PGD_EDITION}
