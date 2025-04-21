@@ -12,7 +12,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Generate Image Catalogs
+      - name: Generate Matrix
+        id: generate
         run: |
           matrix=$(cat .github/operand_versions_scope.json | jq -rc '{"pgd_edition": .supported}')
           echo "matrix=${matrix}" >> $GITHUB_OUTPUT
