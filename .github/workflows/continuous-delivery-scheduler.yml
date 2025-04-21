@@ -45,6 +45,7 @@ jobs:
       matrix: ${{ fromJSON(needs.generate-workflows.outputs.matrix) }}
     steps:
       - name: Invoke continuous delivery
+        id: invoke
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: continuous-delivery.yml
