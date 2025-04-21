@@ -19,11 +19,6 @@ jobs:
           echo "matrix=${matrix}" >> $GITHUB_OUTPUT
           echo ${matrix}
 
-  test:
-    runs-on: ubuntu-latest
-    needs:
-      - generate-workflows
-
   continuous-delivery:
     name: E2E For ${{ matrix.name }}
     needs:
