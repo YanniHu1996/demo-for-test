@@ -15,7 +15,7 @@ jobs:
       - name: Generate Matrix
         id: generate
         run: |
-          matrix=$(cat .github/operand_versions_scope.json | jq -rc '{"pgd_edition": .supported}')
+          matrix=$(cat .github/operand_versions_scope.json | jq -rc '{"pgd_edition": .supported, "name": ["5", "6s", "6x"]}')
           echo "matrix=${matrix}" >> $GITHUB_OUTPUT
           echo ${matrix}
 
@@ -33,6 +33,7 @@ jobs:
           echo "The PGD edition is: ${{ fromJSON(needs.generate-workflows.outputs.matrix).pgd_edition }}"
 
   continuous-delivery:
+    name: Continuous Delivery ${{ matrix.name }}
     needs:
       - generate-workflows
     strategy:
