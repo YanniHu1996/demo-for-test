@@ -4,6 +4,10 @@ on:
     - cron: "30 21 * * *"
   workflow_dispatch:
 
+permissions:
+  actions: write
+
+
 jobs:
   generate-workflows:
     runs-on: ubuntu-latest
@@ -44,7 +48,7 @@ jobs:
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: continuous-delivery.yml
-
+          ref: main
           inputs: >
             {
               "pgd_edition": "${{ matrix.pgd_edition }}",
