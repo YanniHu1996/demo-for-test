@@ -44,7 +44,7 @@ jobs:
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: Another Workflow
-          inputs: '{ ""pgd_edition": "${{ matrix.pgd_edition }}", "depth": "schedule" }'
+          inputs: '{ "pgd_edition": "${{ matrix.pgd_edition }}", "depth": "schedule" }'
 
       - name: upload workflowId to github action summary
         run: |
