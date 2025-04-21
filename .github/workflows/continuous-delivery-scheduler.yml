@@ -19,17 +19,17 @@ jobs:
           echo "matrix=${matrix}" >> $GITHUB_OUTPUT
           echo ${matrix}
 
-  continuous-delivery:
-    name: PGD${{ matrix.pgd_edition }}
-    needs:
-      - generate-workflows
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJSON(needs.generate-workflows.outputs.matrix) }}
-    uses: ./.github/workflows/continuous-delivery.yml
-    with:
-      depth: schedule
-      pgd_edition: ${{ matrix.pgd_edition }}
+  # continuous-delivery:
+  #   name: PGD${{ matrix.pgd_edition }}
+  #   needs:
+  #     - generate-workflows
+  #   strategy:
+  #     fail-fast: false
+  #     matrix: ${{ fromJSON(needs.generate-workflows.outputs.matrix) }}
+  #   uses: ./.github/workflows/continuous-delivery.yml
+  #   with:
+  #     depth: schedule
+  #     pgd_edition: ${{ matrix.pgd_edition }}
 
   continuous-delivery-2:
     name: Trigger E2E For ${{ matrix.pgd_edition }}
@@ -43,8 +43,13 @@ jobs:
       - name: Invoke continuous delivery
         uses: benc-uk/workflow-dispatch@v1
         with:
-          workflow: Another Workflow
-          inputs: '{ "pgd_edition": "${{ matrix.pgd_edition }}", "depth": "schedule" }'
+          workflow: continuous-delivery.yml
+
+          inputs: >
+            {
+              "pgd_edition": "${{ matrix.pgd_edition }}",
+              "depth": "schedule"
+            }
 
       - name: upload workflowId to github action summary
         run: |
