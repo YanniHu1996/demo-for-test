@@ -25,7 +25,7 @@ jobs:
       - generate-workflows
 
   continuous-delivery:
-    name: Continuous Delivery ${{ matrix.name }}
+    name: E2E For ${{ matrix.name }}
     needs:
       - generate-workflows
     strategy:
