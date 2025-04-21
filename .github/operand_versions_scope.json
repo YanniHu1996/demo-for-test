@@ -1,0 +1,8 @@
+{
+  "default": "operand_versions_pgd_6x.json",
+  "supported": [
+    "operand_versions_pgd_6x.json",
+    "operand_versions_pgd_6s.json",
+    "operand_versions_pgd_5.json"
+  ]
+}

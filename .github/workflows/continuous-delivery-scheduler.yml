@@ -1,0 +1,27 @@
+name: continuous-delivery-scheduler
+on:
+  # schedule:
+  #   - cron: "30 21 * * *"
+  workflow_dispatch:
+
+jobs:
+  Generate:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.generate.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Generate Image Catalogs
+        run: |
+          matrix=$(cat .github/operand_versions_scope.json | jq -r '{"pgd_edition": .supported}')
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+
+  Continuous-delivery:
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.generate.outputs.matrix) }}
+    uses: ./.github/workflows/continuous-delivery.yml
+    with:
+      depth: schedule
+      pgd_edition: ${{ matrix.pgd_edition }}

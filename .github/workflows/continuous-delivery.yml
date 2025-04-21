@@ -1,0 +1,26 @@
+name: continuous-delivery
+
+on:
+  workflow_call:
+    inputs:
+      depth:
+        description: "Trigger depth (e.g., schedule or manual)"
+        required: true
+        type: string
+      pgd_edition:
+        description: "PGD edition to process"
+        required: true
+        type: string
+
+jobs:
+  Continuous-Delivery:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Generate Jobs
+        env:
+          PGD_EDITION: ${{ github.event.inputs.pgd_edition }}
+        run: |
+          echo ${PGD_EDITION}
